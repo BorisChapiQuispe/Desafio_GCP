@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Planificación financiera de laboratorios | GCP</title>
+<style>
+:root{--bg:#f4f6fb;--panel:#fff;--ink:#172033;--muted:#667085;--line:#e4e8f0;--blue:#2457d6;--blue2:#eaf0ff;--green:#16845b;--red:#bd3c45;--amber:#9b6410;--shadow:0 8px 28px rgba(20,35,70,.07)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{background:linear-gradient(120deg,#12264a,#2457d6);color:white;padding:38px max(22px,calc((100vw - 1180px)/2)) 34px}
+header .eyebrow{letter-spacing:.12em;text-transform:uppercase;font-size:.75rem;opacity:.8;font-weight:700}
+h1{font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.12;margin:12px 0}
+header p{max-width:850px;color:#e1e9ff;margin:10px 0}
+nav{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:5px;overflow:auto;padding:9px max(12px,calc((100vw - 1180px)/2));box-shadow:0 2px 8px #1720330a}
+nav a{white-space:nowrap;text-decoration:none;color:#46536b;padding:8px 11px;border-radius:8px;font-size:.86rem;font-weight:650}nav a:hover{background:var(--blue2);color:var(--blue)}
+main{max-width:1180px;margin:24px auto;padding:0 18px 60px}
+section{scroll-margin-top:72px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;margin:0 0 20px;box-shadow:var(--shadow)}
+h2{font-size:1.35rem;margin:0 0 14px}h3{font-size:1.02rem;margin:18px 0 8px}p{margin:8px 0}.muted,.small{color:var(--muted)}.small{font-size:.86rem}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.card{border:1px solid var(--line);border-radius:12px;padding:15px;background:#fff}.metric{font-size:1.55rem;font-weight:800;letter-spacing:-.03em}.metric-label{font-size:.8rem;color:var(--muted)}
+.kicker{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--blue);font-weight:800}
+.pill{display:inline-block;border-radius:99px;padding:3px 9px;font-size:.76rem;font-weight:700;background:#edf1f7;color:#46536b}.pill.ok{background:#e5f5ee;color:var(--green)}.pill.warn{background:#fff3dc;color:var(--amber)}
+table{width:100%;border-collapse:collapse;font-size:.88rem;margin:10px 0}th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#f7f8fb;color:#4c5870;font-weight:750}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+button,.btn{border:0;background:var(--blue);color:white;padding:10px 14px;border-radius:9px;font-weight:700;cursor:pointer}button:hover{filter:brightness(.94)}button.secondary{background:#edf1f8;color:#26344f}button.danger{background:#fff0f0;color:var(--red);border:1px solid #f1cccc}
+input,select{font:inherit;border:1px solid #ccd4e2;border-radius:8px;padding:8px 9px;background:white;color:var(--ink);max-width:100%}
+input[type=number]{width:100px;text-align:right}.field{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
+label{font-size:.86rem;font-weight:650;color:#45516a}
+.matrix-wrap{overflow-x:auto}.matrix{width:auto;min-width:400px}.matrix td{padding:5px}.matrix input{width:82px}.matrix th{min-width:82px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.notice{padding:12px 14px;border-radius:10px;background:#f0f5ff;border-left:4px solid var(--blue);font-size:.9rem}
+.warnbox{background:#fff8e9;border-left-color:#d39a32}.successbox{background:#eef9f3;border-left-color:var(--green)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.tabs button.active{background:#12264a}
+.hidden{display:none!important}.status{font-weight:750}.status.good{color:var(--green)}.status.bad{color:var(--red)}
+details{border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0}summary{font-weight:750;cursor:pointer}
+footer{text-align:center;color:var(--muted);padding:25px}
+canvas{max-width:100%;background:#fff;border:1px solid var(--line);border-radius:10px}
+.code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:#f4f6fa;padding:2px 5px;border-radius:4px}
+@media(max-width:760px){.grid,.grid3{grid-template-columns:1fr}section{padding:17px}header{padding:28px 20px}.matrix input{width:68px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="eyebrow">Universidad Mayor de San Andrés · Facultad de Ciencias Puras y Naturales</div>
+ <h1>Planificación financiera de laboratorios de computación</h1>
+ <p>Aplicación del método de Gradientes Conjugados Precondicionado (GCP) a un modelo académico de asignación de recursos para laboratorios de la Carrera de Informática.</p>
+ <p><strong>Mención:</strong> Ingeniería de Sistemas · <strong>Área:</strong> Finanzas · <strong>Tolerancia de referencia:</strong> 10<sup>−6</sup></p>
+</header>
+<nav>
+<a href="#inicio">Inicio</a><a href="#caso">Caso</a><a href="#formulacion">Formulación</a><a href="#datos">Entrada de datos</a><a href="#escenarios">Escenarios</a><a href="#referencia">Solución directa</a><a href="#comparacion">GC vs GCP</a><a href="#errores">Errores</a><a href="#qa">Pruebas QA</a><a href="#conclusiones">Conclusiones</a>
+</nav>
+<main>
+<section id="inicio">
+ <div class="kicker">01 · Inicio</div><h2>Datos del proyecto</h2>
+ <div class="grid">
+  <div><p><strong>Estudiante:</strong> Boris Chapi Quispe</p>
+  <p><strong>Asignatura:</strong> Métodos Numéricos</p><p><strong>Carrera:</strong> Informática · UMSA</p>
+  <p><strong>Mención académica:</strong> Ingeniería de Sistemas</p>
+  <p><strong>Modalidad:</strong> Individual</p></div>
+  <div class="card"><div class="kicker">Síntesis del caso</div><p>Distribuir un presupuesto académico hipotético entre cuatro categorías de inversión para apoyar el funcionamiento de laboratorios de computación: renovación de equipos, mantenimiento, redes y licencias de software.</p><span class="pill warn">Modelo académico con datos sintéticos</span></div>
+ </div>
+ <div class="notice">La página es un simulador autocontenido. Los resultados se calculan en el navegador; no necesita servidor, cuenta ni conexión a una API.</div>
+</section>
+
+<section id="caso">
+ <div class="kicker">02 · Caso de estudio</div><h2>Contexto y justificación financiera</h2>
+ <p>El caso representa la planificación de recursos para laboratorios de computación de la Carrera de Informática de la UMSA. La decisión financiera consiste en distribuir recursos limitados entre cuatro destinos que contribuyen a la disponibilidad y continuidad del servicio académico.</p>
+ <h3>Observaciones del contexto</h3>
+ <ul>
+ <li>Los laboratorios tienen diferentes dimensiones y, por ello, distinta capacidad física y cantidad de equipos.</li>
+ <li>Se dispone de equipos periféricos como teclados y ratones; se han observado fallas puntuales, por ejemplo ruedas de desplazamiento que no funcionan y teclas que no registran.</li>
+ <li>Los laboratorios cuentan con conexión a Internet por cable y Wi-Fi; la conectividad puede resultar lenta.</li>
+ <li>No se dispone aquí de un inventario institucional completo, costos oficiales, presupuesto asignado ni registro de licencias.</li>
+ </ul>
+ <h3>Procedencia de los datos</h3>
+ <p>Las observaciones anteriores corresponden al contexto descriptivo comunicado para el caso académico. Las matrices y los vectores precargados son <strong>datos sintéticos de demostración</strong>, construidos para que el sistema lineal sea simétrico y definido positivo y permita comparar los algoritmos. No son cifras oficiales ni resultados de una auditoría de la UMSA.</p>
+ <div class="notice warnbox"><strong>Alcance:</strong> 100 unidades presupuestarias (UP) representan una escala normalizada hipotética, no bolivianos ni un presupuesto institucional real. Para convertir el ejercicio en una planificación real se necesitarían cantidades de equipos, diagnóstico técnico, cotizaciones, costos de licencias y presupuesto autorizado.</div>
+ <h3>Regla de interpretación de las cuatro categorías</h3>
+ <table><tr><th>Variable</th><th>Magnitud financiera</th><th>Justificación</th></tr>
+ <tr><td><strong>x₁</strong> Renovación de equipos</td><td>UP destinadas a sustituir o actualizar computadoras y periféricos.</td><td>Atiende obsolescencia, capacidad insuficiente y equipos cuyo estado ya no permite un uso adecuado.</td></tr>
+ <tr><td><strong>x₂</strong> Mantenimiento</td><td>UP para diagnóstico, reparación y mantenimiento preventivo/correctivo.</td><td>Responde a fallas observadas en teclados, ratones y otros componentes.</td></tr>
+ <tr><td><strong>x₃</strong> Redes</td><td>UP para mejorar conectividad, cableado, puntos de acceso y equipos de red.</td><td>Busca mejorar la estabilidad y velocidad de la conexión cableada y Wi-Fi.</td></tr>
+ <tr><td><strong>x₄</strong> Software</td><td>UP para licencias, herramientas y soporte de software académico.</td><td>Considera necesidades de desarrollo, bases de datos y herramientas de enseñanza; no supone que todo software deba ser de pago.</td></tr></table>
+ <p class="small">La asignación por tamaño de laboratorio (grande, mediano y pequeño) se considera en la interpretación de cobertura y prioridad. Como no se conocen cantidades exactas por sala, no se inventan ponderaciones de inventario.</p>
+</section>
+
+<section id="formulacion">
+ <div class="kicker">03 · Formulación</div><h2>Modelo lineal y significado matemático</h2>
+ <p>El vector de incógnitas contiene cuatro magnitudes presupuestarias, expresadas en UP:</p>
+ <div class="card"><strong>x = [x₁, x₂, x₃, x₄]ᵀ</strong><p class="small">Renovación, mantenimiento, redes y software, respectivamente. El sistema es A x = b, con A de dimensión 4×4.</p></div>
+ <h3>¿Cómo interpretar A y b?</h3>
+ <p>En este simulador se utiliza un <strong>sistema de planificación normalizado</strong>. Los coeficientes de A representan la relación matemática entre categorías: los elementos diagonales representan la influencia propia de cada destino y los términos fuera de la diagonal representan acoplamiento entre decisiones (por ejemplo, renovar equipos puede requerir ajustes de red o soporte). b contiene los niveles objetivo del escenario, en unidades normalizadas compatibles con el modelo.</p>
+ <p>Esta es una formulación didáctica sintética: los coeficientes no se presentan como correlaciones medidas en los laboratorios. La justificación financiera es conceptual; la calibración real exigiría datos observados y costos verificables.</p>
+ <h3>Propiedades exigidas</h3>
+ <ul><li><strong>Cuadrada:</strong> 4 ecuaciones y 4 incógnitas (n=4).</li><li><strong>Simétrica:</strong> A=Aᵀ.</li><li><strong>Definida positiva:</strong> zᵀAz&gt;0 para todo vector z distinto de cero. Se comprueba numéricamente mediante Cholesky y autovalores positivos.</li></ul>
+ <div class="notice">La suma de las cuatro asignaciones no se impone como restricción independiente en el sistema lineal precargado. Por ello, los resultados de x son niveles de asignación del modelo normalizado y no deben interpretarse automáticamente como una distribución exacta de 100 UP. La cifra de 100 UP es una escala presupuestaria de referencia.</div>
+</section>
+
+<section id="datos">
+ <div class="kicker">04 · Entrada de datos</div><h2>Editar el sistema y ejecutar</h2>
+ <p class="small">Modifica cualquier coeficiente de A y cualquier componente de b. Al pulsar “Calcular”, se validan simetría y definición positiva antes de ejecutar los métodos.</p>
+ <div class="toolbar">
+  <label>Escenario <select id="scenarioSelect"><option value="ideal">Ideal</option><option value="stress">Bajo estrés financiero</option><option value="bad">Mal condicionado</option></select></label>
+  <label>Vector inicial x₀ <select id="x0mode"><option value="zero">Vector cero</option><option value="custom">Personalizado</option></select></label>
+  <label>Tolerancia <input id="tol" type="number" value="0.000001" min="0.0000000001" step="any"></label>
+  <label>Máx. iteraciones <input id="maxit" type="number" value="100" min="1" max="10000"></label>
+  <label>Precondicionador <select id="precond"><option value="jacobi">Jacobi (diagonal)</option><option value="ssor">SSOR (ω=1)</option></select></label>
+ </div>
+ <div id="x0custom" class="field hidden"><label>x₀ =</label><span id="x0inputs"></span></div>
+ <div class="grid">
+  <div><h3>Matriz A</h3><div class="matrix-wrap" id="matrixA"></div></div>
+  <div><h3>Vector b</h3><div class="matrix-wrap" id="vectorB"></div>
+  <div class="toolbar"><button id="calculate">Calcular sistema</button><button class="secondary" id="reset">Restaurar escenario</button></div></div>
+ </div>
+ <div id="validation" class="notice" style="margin-top:12px">Selecciona un escenario y ejecuta el cálculo.</div>
+</section>
+
+<section id="escenarios">
+ <div class="kicker">05 · Tres escenarios</div><h2>Escenarios financieros obligatorios</h2>
+ <div class="grid3">
+  <div class="card"><span class="pill ok">Escenario 1</span><h3>Ideal</h3><p>Situación estable y equilibrada. Matriz con acoplamiento moderado y buen condicionamiento; permite observar convergencia rápida.</p><button class="secondary load" data-s="ideal">Cargar ideal</button></div>
+  <div class="card"><span class="pill warn">Escenario 2</span><h3>Bajo estrés financiero</h3><p>Se conserva la estructura de A y se modifica b para representar presión de costos y una reorientación de prioridades. El cambio desplaza la solución sin empeorar necesariamente κ(A).</p><button class="secondary load" data-s="stress">Cargar estrés</button></div>
+  <div class="card"><span class="pill">Escenario 3</span><h3>Mal condicionado</h3><p>Se simula alta interdependencia entre categorías: los términos fuera de la diagonal se aproximan a los diagonales. La matriz permanece SPD, pero κ(A) aumenta notablemente.</p><button class="secondary load" data-s="bad">Cargar mal condicionado</button></div>
+ </div>
+ <p class="small">Los escenarios son sintéticos y reproducibles. En el escenario mal condicionado se usa SSOR como alternativa al precondicionador diagonal de Jacobi, porque el problema es principalmente de acoplamiento fuera de la diagonal.</p>
+</section>
+
+<section id="referencia">
+ <div class="kicker">06 · Solución de referencia</div><h2>Método directo: Cholesky</h2>
+ <p>Para una matriz simétrica definida positiva, la factorización A=LLᵀ permite resolver Ly=b y luego Lᵀx=y. Esta solución se utiliza como referencia numérica para calcular los errores de GC y GCP.</p>
+ <div id="directResult" class="notice">Ejecuta un escenario para ver la solución directa.</div>
+ <details><summary>Ver explicación del procedimiento</summary><ol><li>Factorizar A como L Lᵀ mediante Cholesky.</li><li>Resolver el sistema triangular inferior L y=b por sustitución hacia adelante.</li><li>Resolver Lᵀ x=y por sustitución hacia atrás.</li><li>Comprobar el residuo relativo de la solución de referencia.</li></ol></details>
+</section>
+
+<section id="comparacion">
+ <div class="kicker">07 · GCP vs GC</div><h2>Gradientes conjugados simples y precondicionados</h2>
+ <div class="grid">
+  <div class="card"><h3>Gradientes conjugados (GC)</h3><div id="gcResult">Pendiente de ejecución.</div></div>
+  <div class="card"><h3>Gradientes conjugados precondicionados (GCP)</h3><div id="pcgResult">Pendiente de ejecución.</div></div>
+ </div>
+ <h3>Comparación de convergencia</h3><div id="iterationChart"></div>
+ <h3>Historial de residuo relativo</h3><div id="residualChart"></div>
+ <p class="small">Se detiene cuando ||rₖ||₂ / ||b||₂ &lt; tolerancia o se alcanza el máximo de iteraciones. En aritmética exacta, CG converge en no más de n iteraciones para matrices SPD; en coma flotante puede requerir más.</p>
+</section>
+
+<section id="errores">
+ <div class="kicker">08 · Análisis de errores y condicionamiento</div><h2>Errores por variable y diagnósticos</h2>
+ <div id="errorTable">Ejecuta el sistema para calcular errores.</div>
+ <div class="grid3" id="conditionMetrics"></div>
+ <h3>Tabla comparativa de escenarios</h3>
+ <div class="toolbar"><button class="secondary" id="saveCurrent">mostrar tablas</button><button class="secondary" id="clearSaved">Limpiar comparación</button></div>
+ <div class="matrix-wrap" id="scenarioComparison">Todavía no hay escenarios guardados. Ejecuta y guarda cada uno.</div>
+</section>
+
+<section id="qa">
+ <div class="kicker">09 · Módulo de pruebas QA</div><h2>Pruebas funcionales comprobables</h2>
+ <p>Las pruebas se ejecutan en esta página y registran entrada, resultado esperado, resultado obtenido y conclusión.</p>
+ <div class="toolbar"><button id="runQA">Ejecutar todas las pruebas QA</button></div>
+ <div class="matrix-wrap" id="qaTable">Pulsa “Ejecutar todas las pruebas QA”.</div>
+ <p class="small">La prueba de comparación de precondicionamiento verifica el criterio solicitado por el desafío. El resultado depende de la matriz y del precondicionador seleccionado; si no se cumple, se informa como fallo en lugar de ocultarlo.</p>
+</section>
+
+<section id="conclusiones">
+ <div class="kicker">10 · Conclusiones y referencias</div><h2>Interpretación y conclusiones</h2>
+ <div id="conclusionText">Ejecuta los escenarios para generar una interpretación basada en los resultados.</div>
+ <h3>Referencias bibliográficas</h3>
+ <ol>
+ <li>Suñagua S., P. (2020). <em>Método de Gradientes Conjugados Precondicionado</em>. Revista Boliviana de Matemática – UMSA, 04, 2–7.</li>
+ <li>Golub, G. H., &amp; Van Loan, C. F. (2013). <em>Matrix Computations</em> (4th ed.). Johns Hopkins University Press.</li>
+ <li>Saad, Y. (2003). <em>Iterative Methods for Sparse Linear Systems</em> (2nd ed.). SIAM.</li>
+ </ol>
+ <div class="notice">Para la entrega final: publica este sitio en GitHub Pages o un servicio equivalente y enlaza también el repositorio público con README, instrucciones de ejecución y commits. La página local no crea ni publica automáticamente esos enlaces.</div>
+</section>
+</main>
+<footer>Simulador académico · Métodos Numéricos · Ingeniería de Sistemas · UMSA</footer>
+<script>
+"use strict";
+const names=["Renovación de equipos","Mantenimiento","Redes","Software"];
+const shortNames=["x₁","x₂","x₃","x₄"];
+const scenarios={
+ ideal:{label:"Ideal",A:[[4,1,0.5,0.25],[1,4,0.5,0.25],[0.5,0.5,4,0.5],[0.25,0.25,0.5,4]],x:[30,28,24,18],why:"Estabilidad financiera: coeficientes diagonales dominantes y dependencias moderadas entre rubros."},
+ stress:{label:"Bajo estrés financiero",A:[[4,1,0.5,0.25],[1,4,0.5,0.25],[0.5,0.5,4,0.5],[0.25,0.25,0.5,4]],x:[35,30,22,13],why:"Presión de costos: se cambia el vector objetivo para priorizar renovación y mantenimiento y reducir el margen de software; la matriz estructural se mantiene."},
+ bad:{label:"Mal condicionado",A:[[0.03156968791911687,-0.009860569465399543,-0.011860178928176897,0.03531465357223138],[-0.009860569465399543,0.6692683335638424,-0.46508950044808567,-0.048297087474334734],[-0.011860178928176897,-0.46508950044808567,0.34095816035981497,0.000001610921425290648],[0.03531465357223138,-0.048297087474334734,0.000001610921425291232,0.06840381815722597]],x:[30,28,24,18],why:"Acoplamiento elevado y escalas diagonales desiguales: los rubros presentan dependencias cruzadas fuertes. La matriz se construyó como SPD con espectro muy disperso (condicionamiento alto); SSOR se utiliza para evaluar si el acoplamiento puede mitigarse."}
+};
+function matVec(A,x){return A.map(r=>r.reduce((s,v,j)=>s+v*x[j],0))}
+function dot(a,b){return a.reduce((s,v,i)=>s+v*b[i],0)}
+function norm(a){return Math.sqrt(dot(a,a))}
+function transpose(A){return A[0].map((_,j)=>A.map(r=>r[j]))}
+function clone(A){return A.map(r=>r.slice())}
+function solveLinear(A,b){let M=A.map((r,i)=>r.concat(b[i]));let n=b.length;
+ for(let k=0;k<n;k++){let p=k;for(let i=k+1;i<n;i++)if(Math.abs(M[i][k])>Math.abs(M[p][k]))p=i;
+ if(Math.abs(M[p][k])<1e-14)throw Error("Matriz singular o numéricamente singular.");
+ [M[k],M[p]]=[M[p],M[k]];let q=M[k][k];for(let j=k;j<=n;j++)M[k][j]/=q;
+ for(let i=0;i<n;i++)if(i!==k){let f=M[i][k];for(let j=k;j<=n;j++)M[i][j]-=f*M[k][j];}}
+ return M.map(r=>r[n]);}
+function cholesky(A){let n=A.length,L=Array.from({length:n},()=>Array(n).fill(0));
+ for(let i=0;i<n;i++)for(let j=0;j<=i;j++){let s=A[i][j];for(let k=0;k<j;k++)s-=L[i][k]*L[j][k];
+ if(i===j){if(s<=1e-13)throw Error("A no es definida positiva (falló Cholesky).");L[i][j]=Math.sqrt(s)}else L[i][j]=s/L[j][j];}
+ return L;}
+function cholSolve(A,b){let L=cholesky(A),n=b.length,y=Array(n).fill(0),x=Array(n).fill(0);
+ for(let i=0;i<n;i++){let s=b[i];for(let j=0;j<i;j++)s-=L[i][j]*y[j];y[i]=s/L[i][i]}
+ for(let i=n-1;i>=0;i--){let s=y[i];for(let j=i+1;j<n;j++)s-=L[j][i]*x[j];x[i]=s/L[i][i]}
+ return x;}
+function eigenvaluesSym(A){let M=clone(A),n=M.length;
+ for(let iter=0;iter<100*n*n;iter++){let p=0,q=1,max=0;for(let i=0;i<n;i++)for(let j=i+1;j<n;j++)if(Math.abs(M[i][j])>max){max=Math.abs(M[i][j]);p=i;q=j}
+ if(max<1e-13)break;let phi=.5*Math.atan2(2*M[p][q],M[q][q]-M[p][p]),c=Math.cos(phi),s=Math.sin(phi);
+ let app=c*c*M[p][p]-2*s*c*M[p][q]+s*s*M[q][q],aqq=s*s*M[p][p]+2*s*c*M[p][q]+c*c*M[q][q];
+ for(let k=0;k<n;k++)if(k!==p&&k!==q){let mkp=M[k][p],mkq=M[k][q];M[k][p]=M[p][k]=c*mkp-s*mkq;M[k][q]=M[q][k]=s*mkp+c*mkq}
+ M[p][p]=app;M[q][q]=aqq;M[p][q]=M[q][p]=0;}
+ return M.map((r,i)=>r[i]).sort((a,b)=>a-b);}
+function cond2(A){let e=eigenvaluesSym(A);if(e[0]<=0)return Infinity;return e[e.length-1]/e[0]}
+function preconditioner(A,type){let n=A.length;
+ if(type==="jacobi"){let d=A.map((r,i)=>r[i]);if(d.some(v=>v<=0))throw Error("Jacobi requiere diagonal positiva.");return r=>r.map((v,i)=>v/d[i]);}
+ // SSOR, omega=1: M=(D+L)D^-1(D+U). Apply inverse by two triangular solves.
+ return r=>{let y=Array(n).fill(0),z=Array(n).fill(0);
+ for(let i=0;i<n;i++){let s=r[i];for(let j=0;j<i;j++)s-=A[i][j]*y[j];y[i]=s/A[i][i]}
+ for(let i=n-1;i>=0;i--){let s=A[i][i]*y[i];for(let j=i+1;j<n;j++)s-=A[i][j]*z[j];z[i]=s/A[i][i]}
+ return z;};
+}
+function precondMatrix(A,type){let n=A.length,M=Array.from({length:n},()=>Array(n).fill(0));
+ // Build M by applying the preconditioner inverse to basis vectors, then invert to obtain M.
+ let apply=preconditioner(A,type),Minv=Array.from({length:n},(_,j)=>apply(Array.from({length:n},(_,i)=>i===j?1:0)));
+ Minv=transpose(Minv);for(let j=0;j<n;j++){let col=Minv.map(r=>r[j]);let e=solveLinear(Minv,Array.from({length:n},(_,i)=>i===j?1:0));for(let i=0;i<n;i++)M[i][j]=e[i]}
+ return M;
+}
+function pcg(A,b,x0,tol,maxit,pre){let x=x0.slice(),r=b.map((v,i)=>v-matVec(A,x)[i]),bn=norm(b)||1,z=pre(r),p=z.slice(),rz=dot(r,z),hist=[norm(r)/bn],ok=hist[0]<tol,k=0;
+ for(;k<maxit&&!ok;k++){let Ap=matVec(A,p),den=dot(p,Ap);if(!(den>0))throw Error("Se detectó una dirección no positiva; revise SPD.");let alpha=rz/den;x=x.map((v,i)=>v+alpha*p[i]);r=r.map((v,i)=>v-alpha*Ap[i]);let rel=norm(r)/bn;hist.push(rel);if(rel<tol){ok=true;break}z=pre(r);let rz2=dot(r,z),beta=rz2/rz;p=z.map((v,i)=>v+beta*p[i]);rz=rz2;}
+ return {x,it:k+(ok?1:0),rel:norm(r)/bn,ok,hist};}
+function validate(A){let n=A.length;if(A.some(r=>r.length!==n))return "A debe ser cuadrada.";
+ for(let i=0;i<n;i++)for(let j=0;j<n;j++)if(Math.abs(A[i][j]-A[j][i])>1e-10)return "La matriz no es simétrica.";
+ try{cholesky(A)}catch(e){return e.message}return "";}
+function fmt(v){if(!Number.isFinite(v))return "∞";return Math.abs(v)>=1e5||Math.abs(v)<1e-5&&v!==0?v.toExponential(4):v.toFixed(7)}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+let current="ideal",last=null,saved={};
+function targetB(s){return matVec(s.A,s.x)}
+function renderMatrix(A,b){document.getElementById("matrixA").innerHTML='<table class="matrix"><tr><th></th>'+shortNames.map(n=>`<th>${n}</th>`).join("")+'</tr>'+A.map((r,i)=>`<tr><th>${shortNames[i]}</th>${r.map((v,j)=>`<td><input aria-label="A ${i+1},${j+1}" type="number" step="any" id="a${i}${j}" value="${v}"></td>`).join("")}</tr>`).join("")+'</table>';
+ document.getElementById("vectorB").innerHTML='<table class="matrix"><tr><th></th><th>b</th></tr>'+b.map((v,i)=>`<tr><th>${shortNames[i]}</th><td><input aria-label="b ${i+1}" type="number" step="any" id="b${i}" value="${v}"></td></tr>`).join("")+'</table>';
+ document.getElementById("x0inputs").innerHTML=shortNames.map((n,i)=>`${n}: <input id="x0${i}" type="number" value="0" step="any">`).join(" ");}
+function readData(){let A=Array.from({length:4},(_,i)=>Array.from({length:4},(_,j)=>Number(document.getElementById(`a${i}${j}`).value))),b=Array.from({length:4},(_,i)=>Number(document.getElementById(`b${i}`).value));if([...A.flat(),...b].some(v=>!Number.isFinite(v)))throw Error("Todos los valores deben ser números finitos.");return {A,b}}
+function loadScenario(key){current=key;let s=scenarios[key];document.getElementById("scenarioSelect").value=key;renderMatrix(s.A,targetB(s));document.getElementById("precond").value=key==="bad"?"ssor":"jacobi";document.getElementById("validation").textContent="Escenario cargado: "+s.label+". "+s.why;runCalculation();}
+function renderVector(x){return "["+x.map(fmt).join(", ")+"]ᵀ"}
+function runCalculation(){try{let {A,b}=readData(),tol=Number(document.getElementById("tol").value),maxit=Number(document.getElementById("maxit").value);if(!(tol>0)||!(maxit>=1))throw Error("Tolerancia y máximo de iteraciones deben ser positivos.");let err=validate(A);if(err)throw Error(err);
+ let x0=document.getElementById("x0mode").value==="zero"?[0,0,0,0]:[0,1,2,3].map(i=>Number(document.getElementById("x0"+i).value));
+ let ref=cholSolve(A,b),gc=pcg(A,b,x0,tol,maxit,r=>r.slice()),preType=document.getElementById("precond").value,apply=preconditioner(A,preType),gcp=pcg(A,b,x0,tol,maxit,apply);
+ let M=precondMatrix(A,preType),kA=cond2(A),kMA=cond2(M); // Similarity diagnostic for M^-1 A is estimated via symmetric preconditioned form below.
+ let minvA=Array.from({length:4},(_,j)=>apply(A.map((_,i)=>i===j?1:0)));minvA=transpose(minvA);
+ // Eigenvalues of M^-1 A are real positive; use general power-independent estimate via M^-1/2 A M^-1/2 for SPD M.
+ let kpre=preconditionedCondition(A,preType);
+ last={A,b,ref,gc,gcp,kA,kMA:kpre,preType,tol,maxit,x0,scenario:current};
+ document.getElementById("validation").innerHTML='<span class="status good">Validación correcta.</span> A es simétrica y Cholesky confirma que es definida positiva.';
+ document.getElementById("directResult").innerHTML=`<strong>Solución de referencia (Cholesky):</strong><br>${renderVector(ref)}<p class="small">Residuo relativo: ${fmt(norm(b.map((v,i)=>v-matVec(A,ref)[i]))/(norm(b)||1))}</p>`;
+ document.getElementById("gcResult").innerHTML=resultHtml(gc);
+ document.getElementById("pcgResult").innerHTML=resultHtml(gcp)+`<p class="small">Precondicionador: ${preType==="jacobi"?"Jacobi diagonal":"SSOR (ω=1)"}</p>`;
+ document.getElementById("errorTable").innerHTML=errorHtml(ref,gc.x,gcp.x);
+ document.getElementById("conditionMetrics").innerHTML=[["κ₂(A)",kA],["κ₂(M⁻¹A)",kpre],["Residuo relativo GCP",gcp.rel]].map(([a,v])=>`<div class="card"><div class="metric">${fmt(v)}</div><div class="metric-label">${a}</div></div>`).join("");
+ drawBars(gc.it,gcp.it);drawResidual(gc.hist,gcp.hist);writeConclusion(last);
+ }catch(e){document.getElementById("validation").innerHTML='<span class="status bad">No se pudo ejecutar:</span> '+esc(e.message);}}
+function resultHtml(r){return `<p><strong>Vector:</strong><br><span class="code">${renderVector(r.x)}</span></p><div class="grid3"><div><div class="metric">${r.it}</div><div class="metric-label">Iteraciones</div></div><div><div class="metric">${fmt(r.rel)}</div><div class="metric-label">Residuo relativo final</div></div><div><div class="metric">${r.ok?"Sí":"No"}</div><div class="metric-label">¿Convergió?</div></div></div><p class="small">Criterio: residuo relativo &lt; ${fmt(last?last.tol:1e-6)}</p>`}
+function errorHtml(ref,gc,gcp){let rows=names.map((n,i)=>{let ea=Math.abs(ref[i]-gcp[i]),er=ref[i]===0?null:ea/Math.abs(ref[i]);return `<tr><td>${shortNames[i]} · ${n}</td><td class="num">${fmt(ref[i])}</td><td class="num">${fmt(gcp[i])}</td><td class="num">${fmt(ea)}</td><td class="num">${er===null?"No definido":fmt(er)}</td><td class="num">${er===null?"No definido":fmt(er*100)+"%"}</td></tr>`}).join("");
+ return `<div class="matrix-wrap"><table><tr><th>Variable</th><th class="num">Referencia</th><th class="num">GCP</th><th class="num">Error absoluto</th><th class="num">Error relativo</th><th class="num">Error porcentual</th></tr>${rows}</table></div><p><strong>Residuo relativo global GCP:</strong> ${fmt(last.gcp.rel)}</p>`}
+function drawBars(gc,pcg){let max=Math.max(gc,pcg,1),w=560,h=145;document.getElementById("iterationChart").innerHTML=`<svg viewBox="0 0 ${w} ${h}" width="100%" role="img" aria-label="Comparación de iteraciones"><text x="8" y="28" font-size="13" fill="#172033">GC</text><rect x="110" y="12" width="${390*gc/max}" height="25" rx="5" fill="#9aa8bd"/><text x="${118+390*gc/max}" y="30" font-size="12" fill="#172033">${gc}</text><text x="8" y="75" font-size="13" fill="#172033">GCP</text><rect x="110" y="58" width="${390*pcg/max}" height="25" rx="5" fill="#2457d6"/><text x="${118+390*pcg/max}" y="76" font-size="12" fill="#172033">${pcg}</text><text x="110" y="120" font-size="11" fill="#667085">Número de iteraciones hasta alcanzar la tolerancia</text></svg>`}
+function drawResidual(a,b){let W=650,H=210,p=35,vals=a.concat(b).filter(v=>v>0),min=Math.min(...vals,1e-16),max=Math.max(...vals,1),log=v=>Math.log10(Math.max(v,1e-16)),y=v=>H-p-(log(v)-log(min))/(log(max)-log(min)||1)*(H-2*p),x=i=>p+i*(W-2*p)/(Math.max(a.length,b.length)-1||1);
+ let path=arr=>arr.map((v,i)=>(i?"L":"M")+x(i)+","+y(v)).join(" ");document.getElementById("residualChart").innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Historial de residuo"><line x1="${p}" y1="${H-p}" x2="${W-p}" y2="${H-p}" stroke="#ccd4e2"/><line x1="${p}" y1="${p}" x2="${p}" y2="${H-p}" stroke="#ccd4e2"/><path d="${path(a)}" fill="none" stroke="#9aa8bd" stroke-width="2.5"/><path d="${path(b)}" fill="none" stroke="#2457d6" stroke-width="2.5"/><text x="${p}" y="17" font-size="11" fill="#667085">Residuo relativo (escala logarítmica)</text><text x="${p}" y="${H-8}" font-size="11" fill="#667085">Iteración</text><text x="${W-170}" y="18" font-size="11" fill="#9aa8bd">— GC</text><text x="${W-110}" y="18" font-size="11" fill="#2457d6">— GCP</text></svg>`}
+function preconditionedCondition(A,type){ // Build M explicitly from M^-1 action; estimate eigenvalues of symmetric M^-1/2 A M^-1/2 by Jacobi rotations.
+ let n=A.length,apply=preconditioner(A,type),Minv=transpose(Array.from({length:n},(_,j)=>apply(Array.from({length:n},(_,i)=>i===j?1:0))));
+ // For Jacobi, M is diagonal. For SSOR, use M=(D+L)D^-1(D+U), symmetric SPD.
+ let M;
+ if(type==="jacobi")M=A.map((r,i)=>A.map((_,j)=>i===j?A[i][i]:0));
+ else {let D=Array.from({length:n},(_,i)=>A[i][i]),B=Array.from({length:n},(_,i)=>Array.from({length:n},(_,j)=>i===j?D[i]:i>j?A[i][j]:0));
+ M=Array.from({length:n},()=>Array(n).fill(0));for(let i=0;i<n;i++)for(let j=0;j<n;j++)for(let k=0;k<n;k++)M[i][j]+=B[i][k]*B[j][k]/D[k];}
+ // Cholesky M = LL^T, construct L^-1 A L^-T.
+ let L=cholesky(M),Li=solveMatrix(L),S=mul(mul(Li,A),transpose(Li));let ev=eigenvaluesSym(S);return ev[0]>0?ev[3]/ev[0]:Infinity;
+}
+function solveMatrix(A){let n=A.length,I=Array.from({length:n},(_,i)=>Array.from({length:n},(_,j)=>i===j?1:0));return transpose(I.map(col=>solveLinear(A,col)))}
+function mul(A,B){return A.map(r=>B[0].map((_,j)=>r.reduce((s,v,k)=>s+v*B[k][j],0)))}
+function writeConclusion(r){let c=`<p>En el escenario <strong>${scenarios[r.scenario].label}</strong>, la matriz tiene κ₂(A)=${fmt(r.kA)}. El método GC realizó ${r.gc.it} iteraciones y GCP realizó ${r.gcp.it}. `;
+ c+=r.gcp.ok?`GCP alcanzó la tolerancia ${fmt(r.tol)}; `:`GCP no alcanzó la tolerancia dentro del máximo de iteraciones; `;
+ c+=`el residuo relativo final de GCP fue ${fmt(r.gcp.rel)}. `;
+ c+=r.kMA<r.kA?`El precondicionamiento redujo el número de condición estimado de ${fmt(r.kA)} a ${fmt(r.kMA)}.`:`El precondicionador elegido no redujo el número de condición estimado (${fmt(r.kMA)}); conviene probar otra estrategia.`;
+ c+=`</p><p>Desde el punto de vista financiero, el vector calculado expresa los niveles relativos asignados a renovación, mantenimiento, redes y software según los coeficientes del escenario. No representa un presupuesto ejecutado ni una recomendación institucional sin validación de costos y necesidades reales.</p>`;document.getElementById("conclusionText").innerHTML=c}
+function saveCurrent(){if(!last)return;let s=last.scenario;saved[s]={...last};renderComparison()}
+function renderComparison(){let keys=["ideal","stress","bad"].filter(k=>saved[k]);if(!keys.length){document.getElementById("scenarioComparison").textContent="Todavía no hay escenarios guardados.";return}
+ let head=keys.map(k=>`<th>${scenarios[k].label}</th>`).join("");
+ let rows=[["Solución de referencia",r=>renderVector(r.ref)],["Solución GCP",r=>renderVector(r.gcp.x)],["Iteraciones GC",r=>r.gc.it],["Iteraciones GCP",r=>r.gcp.it],["κ₂(A)",r=>fmt(r.kA)],["κ₂(M⁻¹A)",r=>fmt(r.kMA)],["Residuo relativo GCP",r=>fmt(r.gcp.rel)],["¿Convergió GCP?",r=>r.gcp.ok?"Sí":"No"]];
+ document.getElementById("scenarioComparison").innerHTML=`<table><tr><th>Indicador</th>${head}</tr>${rows.map(([n,f])=>`<tr><td>${n}</td>${keys.map(k=>`<td>${f(saved[k])}</td>`).join("")}</tr>`).join("")}</table><p class="small">Los errores por variable del escenario actualmente seleccionado aparecen en la tabla superior.</p>`}
+function runQA(){let results=[];function test(name,input,expected,fn){let got="",ok=false;try{let res=fn();got=String(res);ok=!!res}catch(e){got=e.message;ok=false}results.push({name,input,expected,got,ok})}
+ test("Carga de escenarios","Cargar los tres juegos precargados","Los tres sistemas son simétricos y SPD",()=>["ideal","stress","bad"].every(k=>!validate(scenarios[k].A)));
+ test("Validación de matriz no válida","Matriz no simétrica [[1,2],[0,1]]","El sistema detecta la falta de simetría",()=>validate([[1,2],[0,1]])==="La matriz no es simétrica.");
+ test("Validación de matriz no definida positiva","Matriz simétrica [[1,2],[2,1]]","Cholesky rechaza la matriz",()=>validate([[1,2],[2,1]]).includes("definida positiva"));
+ test("Edición dinámica","Modificar un coeficiente y recalcular","La solución directa cambia",()=>{let A=clone(scenarios.ideal.A),b=targetB(scenarios.ideal),x1=cholSolve(A,b);A[0][0]+=.25;A[0][0]=A[0][0];let x2=cholSolve(A,b);return norm(x1.map((v,i)=>v-x2[i]))>1e-8});
+ test("Comparación de precondicionamiento","Escenario mal condicionado con SSOR","GCP converge en ≤ iteraciones que GC",()=>{let s=scenarios.bad,A=s.A,b=targetB(s),t=1e-6;let g=pcg(A,b,[0,0,0,0],t,100,r=>r.slice()),p=pcg(A,b,[0,0,0,0],t,100,preconditioner(A,"ssor"));return p.ok&&g.ok&&p.it<=g.it});
+ document.getElementById("qaTable").innerHTML=`<table><tr><th>Prueba</th><th>Entrada</th><th>Resultado esperado</th><th>Resultado obtenido</th><th>Conclusión</th></tr>${results.map(r=>`<tr><td>${r.name}</td><td>${r.input}</td><td>${r.expected}</td><td>${r.got}</td><td><span class="pill ${r.ok?"ok":"warn"}">${r.ok?"APROBADA":"REVISAR"}</span></td></tr>`).join("")}</table>`}
+document.querySelectorAll(".load").forEach(b=>b.addEventListener("click",()=>loadScenario(b.dataset.s)));
+document.getElementById("scenarioSelect").addEventListener("change",e=>loadScenario(e.target.value));
+document.getElementById("calculate").addEventListener("click",runCalculation);
+document.getElementById("reset").addEventListener("click",()=>loadScenario(current));
+document.getElementById("x0mode").addEventListener("change",e=>document.getElementById("x0custom").classList.toggle("hidden",e.target.value!=="custom"));
+document.getElementById("saveCurrent").addEventListener("click",()=>{saveCurrent();document.getElementById("validation").textContent="Resultado del escenario guardado en la tabla comparativa."});
+document.getElementById("clearSaved").addEventListener("click",()=>{saved={};renderComparison()});
+document.getElementById("runQA").addEventListener("click",runQA);
+loadScenario("ideal");
+</script>
+</body></html>
